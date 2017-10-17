@@ -46,7 +46,7 @@ float GameTimer::TotalTime()const
 	{
 		return (float)(((mCurrTime-mPausedTime)-mBaseTime)*mSecondsPerCount);
 	}
-}
+}	
 
 float GameTimer::DeltaTime()const
 {
