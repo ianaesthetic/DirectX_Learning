@@ -6,7 +6,7 @@ class GameTimer {
 public:
 	GameTimer(); //Constructor 
 	
-	float GameTime() const; 
+	float TotalTime() const; 
 	float DeltaTime() const; 
 
 	void Tick(); 
@@ -15,8 +15,8 @@ public:
 	void Reset(); 
 	
 private:
-	double _SecondPerCounts; 
-	double _DeltaCounts; 
+	double _SecondsPerCount; 
+	double _DeltaTime; 
 
 	__int64 _CurrentTime; 
 	__int64 _BaseTime; 
