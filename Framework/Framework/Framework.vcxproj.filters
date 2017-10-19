@@ -24,6 +24,9 @@
     <ClInclude Include="d3dApp.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="dxerr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameTimer.cpp">
@@ -33,6 +36,9 @@
       <Filter>资源文件</Filter>
     </ClCompile>
     <ClCompile Include="d3dApp.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dxerr.cpp">
       <Filter>头文件</Filter>
     </ClCompile>
   </ItemGroup>

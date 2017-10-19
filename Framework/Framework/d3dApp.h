@@ -3,13 +3,22 @@
 #include "d3Util.h"
 #include "GameTimer.h" 
 
-class D3APP {
+class D3DAPP {
 public: 
-	D3APP(HINSTANCE hinstance);
-	virtual ~D3APP(); 
+	//Class Initilization 
+	D3DAPP(HINSTANCE hinstance);
+	virtual ~D3DAPP(); 
+
+	HINSTANCE GetAppInstance() const;
+	HWND GetAppWindow() const; 
+	float GetAspectRatio() const; 
+
+	int Run(); 
 
 	virtual bool Init(); 
 	virtual void OnResize();
+	virtual void UpdateScene(float t) = 0;
+	virtual void DrawScene() = 0; 
 
 	virtual LRESULT MsgProc(HWND hwnd, MSG msg, LPARAM lParam, WPARAM wParam); 
 
@@ -19,12 +28,13 @@ protected:
 	bool InitDirect3D();
 
 	//WinAPI component
+	HINSTANCE mhAppInstance; 
 	HWND mhMainWnd;
 
 	//DiretX component
 	ID3D11Device* mDevice;
 	ID3D11DeviceContext* mDeviceContext; 
-	DXGI_SWAP_CHAIN_DESC* mSwapChain; 
+	IDXGISwapChain* mSwapChain; 
 	ID3D11Texture2D* mDepthStencilBuffer;
 	ID3D11RenderTargetView* mRenderTargetView; 
 	ID3D11DepthStencilView* mDepthStencilView; 

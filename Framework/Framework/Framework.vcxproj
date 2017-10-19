@@ -138,10 +138,12 @@
   <ItemGroup>
     <ClInclude Include="d3dApp.h" />
     <ClInclude Include="d3Util.h" />
+    <ClInclude Include="dxerr.h" />
     <ClInclude Include="GameTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="d3dApp.cpp" />
+    <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Indirect D3d.cpp" />
   </ItemGroup>

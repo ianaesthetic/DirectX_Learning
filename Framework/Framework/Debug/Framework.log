@@ -1,4 +1,5 @@
-﻿  Indirect D3d.cpp
-  d3dApp.cpp
-  正在生成代码...
-  Framework.vcxproj -> D:\DirectX_Learning\Framework\Debug\Framework.exe
+﻿  d3dApp.cpp
+d:\directx_learning\framework\framework\d3dapp.cpp(62): warning C4700: 使用了未初始化的局部变量“msg”
+d:\directx_learning\framework\framework\d3dapp.cpp(223): error C4716: “D3DAPP::InitWindow”: 必须返回一个值
+d:\directx_learning\framework\framework\d3dapp.cpp(180): warning C4700: 使用了未初始化的局部变量“backBuffer”
+d:\directx_learning\framework\framework\d3dapp.cpp(226): error C4716: “D3DAPP::MsgProc”: 必须返回一个值

@@ -1,9 +1,13 @@
-﻿  d3dApp.cpp
-d:\directx_learning\common\d3dapp.cpp(357): error C2664: “HWND CreateWindowExA(DWORD,LPCSTR,LPCSTR,DWORD,int,int,int,int,HWND,HMENU,HINSTANCE,LPVOID)”: 无法将参数 3 从“const wchar_t *”转换为“LPCSTR”
-  d:\directx_learning\common\d3dapp.cpp(357): note: 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
-d:\directx_learning\common\d3dapp.cpp(393): error C2664: “int MessageBoxA(HWND,LPCSTR,LPCSTR,UINT)”: 无法将参数 2 从“const wchar_t [26]”转换为“LPCSTR”
-  d:\directx_learning\common\d3dapp.cpp(393): note: 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
-d:\directx_learning\common\d3dapp.cpp(399): error C2664: “int MessageBoxA(HWND,LPCSTR,LPCSTR,UINT)”: 无法将参数 2 从“const wchar_t [39]”转换为“LPCSTR”
-  d:\directx_learning\common\d3dapp.cpp(399): note: 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
-d:\directx_learning\common\d3dapp.cpp(493): error C2664: “BOOL SetWindowTextA(HWND,LPCSTR)”: 无法将参数 2 从“const wchar_t *”转换为“LPCSTR”
-  d:\directx_learning\common\d3dapp.cpp(493): note: 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
+﻿  dxerr.cpp
+  d3dApp.cpp
+d:\directx_learning\common\d3dapp.cpp(356): error C2660: “CreateWindowExA”: 函数不接受 0 个参数
+d:\directx_learning\common\d3dapp.cpp(492): error C2664: “BOOL SetWindowTextA(HWND,LPCSTR)”: 无法将参数 2 从“const wchar_t *”转换为“LPCSTR”
+  d:\directx_learning\common\d3dapp.cpp(492): note: 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
+  GameTimer.cpp
+  正在生成代码...
+  正在编译...
+  d3dUtil.cpp
+  正在生成代码...
+  正在编译...
+  Init Direct3D.cpp
+  正在生成代码...

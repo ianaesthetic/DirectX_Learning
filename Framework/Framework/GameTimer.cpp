@@ -60,7 +60,7 @@ void GameTimer::Reset() {
 	_BaseTime = currentTime; 
 	_PrevTime = currentTime; 
 	_StopTime = 0; 
-	//_PauseTime = 0;
+	_PauseTime = 0;
 	_Stop = 0;
 
 }
