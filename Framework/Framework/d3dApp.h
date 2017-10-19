@@ -5,9 +5,17 @@
 
 class D3APP {
 public: 
+	D3APP(HINSTANCE hinstance);
+	virtual ~D3APP(); 
+
+	virtual bool Init(); 
+	virtual void OnResize();
+
+	virtual LRESULT MsgProc(HWND hwnd, MSG msg, LPARAM lParam, WPARAM wParam); 
 
 protected:
 
+	bool InitWindow(); 
 	bool InitDirect3D();
 
 	//WinAPI component
@@ -15,17 +23,22 @@ protected:
 
 	//DiretX component
 	ID3D11Device* mDevice;
-	ID3D11DeviceContext* mContext; 
+	ID3D11DeviceContext* mDeviceContext; 
 	DXGI_SWAP_CHAIN_DESC* mSwapChain; 
-	ID3D11Texture2D* _DepthStencilBuffer;
+	ID3D11Texture2D* mDepthStencilBuffer;
 	ID3D11RenderTargetView* mRenderTargetView; 
 	ID3D11DepthStencilView* mDepthStencilView; 
 	D3D11_VIEWPORT mViewport; 
 
 	//Controlling parameter
+
 	D3D_DRIVER_TYPE mDriverType; 
 	int mClientWindowWidth;
 	int mClientWindowHeight;
 	bool mMsaa4XEnabled; 
 	UINT mMsaaQualityLevel;
+
+	//Timer 
+	GameTimer mTimer; 
+	bool mAppPaused; 
 };

@@ -1,6 +1,22 @@
 #include "d3dApp.h"
 #include "GameTimer.h"
 
+D3APP::D3APP(HINSTANCE hinstance) :
+	mDevice(0),
+	mDeviceContext(0),
+	mSwapChain(0), 
+	mDepthStencilBuffer(0),
+	mRenderTargetView(0), 
+	mDepthStencilView(0),
+
+	mAppPaused(false), 
+	mMsaa4XEnabled(false), 
+	mClientWindowWidth(800), 
+	mClientWindowHeight(600),
+	mDriverType()
+	
+{}
+
 bool D3APP::InitDirect3D() {
 	UINT createDeviceFlag = 0;
 #if defined(DEBUG) || defined(_DEBUG)
