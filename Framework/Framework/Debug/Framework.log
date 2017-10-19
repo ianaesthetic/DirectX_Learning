@@ -2,6 +2,7 @@
   GameTimer.cpp
   dxerr.cpp
   d3dApp.cpp
-c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\d3dapp.cpp(235): error C2440: “=”: 无法从“LRESULT (__stdcall *)(HWND,UINT,LPARAM,WPARAM)”转换为“WNDPROC”
-  c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\d3dapp.cpp(235): note: 该转换要求 reinterpret_cast、C 样式转换或函数类型转换
   正在生成代码...
+d:\directx_learning\framework\framework\d3dapp.cpp(72): warning C4700: 使用了未初始化的局部变量“msg”
+d:\directx_learning\framework\framework\d3dapp.cpp(190): warning C4700: 使用了未初始化的局部变量“backBuffer”
+  Framework.vcxproj -> D:\DirectX_Learning\Framework\Debug\Framework.exe

@@ -20,7 +20,7 @@ public:
 	virtual void UpdateScene(float t) = 0;
 	virtual void DrawScene() = 0; 
 
-	virtual LRESULT MsgProc(HWND hwnd, UINT msg, LPARAM lParam, WPARAM wParam); 
+	virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	virtual void OnMouseDown(WPARAM btnState, int x, int y) {}
 	virtual void OnMouseUp(WPARAM btnState, int x, int y) {}

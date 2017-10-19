@@ -7,9 +7,8 @@ namespace {
 	D3DAPP* gd3dApp;
 }
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, LPARAM lParam, WPARAM wParam) {
-	return DefWindowProc(hwnd, msg, lParam, wParam);
-	//return gd3dApp->MsgProc(hwnd, msg, lParam, wParam); 
+LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	return gd3dApp->MsgProc(hwnd, msg, wParam, lParam); 
 }
 
 D3DAPP::D3DAPP(HINSTANCE hinstance) :
@@ -233,7 +232,7 @@ bool D3DAPP::InitWindow() {
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.style = 0;
-	wc.lpfnWndProc = WndProc;
+	wc.lpfnWndProc = MainWndProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = mhAppInstance;
@@ -243,9 +242,35 @@ bool D3DAPP::InitWindow() {
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = "(0. 0   )";
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION); 
+
+	if (!RegisterClassEx(&wc))
+	{
+		MessageBox(NULL, "Window Registration Failed!", "Error!",
+			MB_ICONEXCLAMATION | MB_OK);
+		return 0;
+	}
+
+	mhMainWnd = CreateWindowEx(
+		0,
+		"(0. 0   )",
+		"theForger's Tutorial Application",
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, CW_USEDEFAULT, 480, 320,
+		NULL, NULL, mhAppInstance, NULL);
+
+	if (mhMainWnd == NULL)
+	{
+		MessageBox(NULL, "Window Creation Failed!", "Error!",
+			MB_ICONEXCLAMATION | MB_OK);
+		return 0;
+	}
+
+	ShowWindow(mhMainWnd, SW_SHOW);
+	UpdateWindow(mhMainWnd);
+	return true;
 }
 
-LRESULT D3DAPP::MsgProc(HWND hwnd, UINT msg, LPARAM lParam, WPARAM wParam) {
+LRESULT D3DAPP::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch (msg) {
 
 	case WM_ACTIVATE:
