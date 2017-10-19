@@ -20,7 +20,11 @@ public:
 	virtual void UpdateScene(float t) = 0;
 	virtual void DrawScene() = 0; 
 
-	virtual LRESULT MsgProc(HWND hwnd, MSG msg, LPARAM lParam, WPARAM wParam); 
+	virtual LRESULT MsgProc(HWND hwnd, UINT msg, LPARAM lParam, WPARAM wParam); 
+
+	virtual void OnMouseDown(WPARAM btnState, int x, int y) {}
+	virtual void OnMouseUp(WPARAM btnState, int x, int y) {}
+	virtual void OnMouseMove(WPARAM btnState, int x, int y) {}
 
 protected:
 
@@ -30,6 +34,9 @@ protected:
 	//WinAPI component
 	HINSTANCE mhAppInstance; 
 	HWND mhMainWnd;
+	bool mMinimized; 
+	bool mMaximized; 
+	bool mResizing; 
 
 	//DiretX component
 	ID3D11Device* mDevice;

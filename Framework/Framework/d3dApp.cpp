@@ -1,12 +1,15 @@
 #include "d3dApp.h"
 #include "GameTimer.h"
+#include <windowsx.h>
+#include <sstream>
 
 namespace {
 	D3DAPP* gd3dApp;
 }
 
-LRESULT CALLBACK WndProc(HWND hwnd, MSG msg, LPARAM lParam, WPARAM wParam) {
-	return gd3dApp->MsgProc(hwnd, msg, lParam, wParam); 
+LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, LPARAM lParam, WPARAM wParam) {
+	return DefWindowProc(hwnd, msg, lParam, wParam);
+	//return gd3dApp->MsgProc(hwnd, msg, lParam, wParam); 
 }
 
 D3DAPP::D3DAPP(HINSTANCE hinstance) :
@@ -22,7 +25,11 @@ D3DAPP::D3DAPP(HINSTANCE hinstance) :
 	mClientWindowWidth(800), 
 	mClientWindowHeight(600),
 	mDriverType(D3D_DRIVER_TYPE_HARDWARE),
-	mMsaaQualityLevel(0) {	
+	mMsaaQualityLevel(0),
+	
+	mMinimized(false),
+	mMaximized(false), 
+	mResizing(false) {	
 	ZeroMemory(&mViewport, sizeof(D3D11_VIEWPORT));
 	gd3dApp = this;
 }
@@ -238,5 +245,92 @@ bool D3DAPP::InitWindow() {
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION); 
 }
 
-LRESULT D3DAPP::MsgProc(HWND hwnd, MSG msg, LPARAM lParam, WPARAM wParam) {
+LRESULT D3DAPP::MsgProc(HWND hwnd, UINT msg, LPARAM lParam, WPARAM wParam) {
+	switch (msg) {
+
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE) {
+			mAppPaused = true;
+			mTimer.Pause();
+		}
+		else {
+			mAppPaused = false;
+			mTimer.Start();
+		}
+		return 0;
+
+	case WM_SIZE:
+		mClientWindowWidth = LOWORD(lParam);
+		mClientWindowHeight = HIWORD(lParam);
+		if (mDevice) {
+			if (wParam == SIZE_MINIMIZED) {
+				mAppPaused = true;
+				mMinimized = true;
+				mMaximized = false;
+			}
+			else if (wParam == SIZE_MAXIMIZED) {
+				mAppPaused = false;
+				mMinimized = false;
+				mMaximized = true;
+				OnResize();
+			}
+			else if (wParam == SIZE_RESTORED) {
+				if (mMinimized) {
+					mAppPaused = false;
+					mMinimized = false;
+					OnResize();
+				}
+
+				else if (mMaximized) {
+					mAppPaused = false;
+					mMaximized = false;
+					OnResize();
+				}
+				else if (mResizing) {
+				}
+				else {
+					OnResize();
+				}
+			}
+		}
+		return 0;
+
+	case WM_ENTERSIZEMOVE:
+		mAppPaused = true;
+		mResizing = true;
+		mTimer.Pause();
+		return 0;
+
+	case WM_EXITSIZEMOVE:
+		mAppPaused = false;
+		mResizing = false;
+		mTimer.Start();
+		return 0;
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+
+	case WM_MENUCHAR:
+		return MAKELRESULT(0, MNC_CLOSE);
+
+	case WM_GETMINMAXINFO:
+		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 200;
+		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 200;
+		return 0;
+
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		return 0;
+	case WM_LBUTTONUP:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONUP:
+		OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+	case WM_MOUSEMOVE:
+		OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		return 0;
+	}
+	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
