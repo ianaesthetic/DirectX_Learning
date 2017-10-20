@@ -4,14 +4,21 @@ d:\directx_learning\framework\framework\debug\d3dapp.obj
 d:\directx_learning\framework\framework\debug\dxerr.obj
 d:\directx_learning\framework\framework\debug\gametimer.obj
 d:\directx_learning\framework\framework\debug\indirect d3d.obj
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\vc141.pdb
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\vc141.idb
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\d3dapp.obj
+d:\directx_learning\framework\debug\framework.ilk
+d:\directx_learning\framework\debug\framework.exe
 d:\directx_learning\framework\debug\framework.pdb
-d:\directx_learning\framework\framework\debug\framework.tlog\cl.command.1.tlog
-d:\directx_learning\framework\framework\debug\framework.tlog\cl.read.1.tlog
-d:\directx_learning\framework\framework\debug\framework.tlog\cl.write.1.tlog
-d:\directx_learning\framework\framework\debug\framework.tlog\link-cvtres.read.1.tlog
-d:\directx_learning\framework\framework\debug\framework.tlog\link-cvtres.write.1.tlog
-d:\directx_learning\framework\framework\debug\framework.tlog\link-rc.read.1.tlog
-d:\directx_learning\framework\framework\debug\framework.tlog\link-rc.write.1.tlog
-d:\directx_learning\framework\framework\debug\framework.tlog\link.command.1.tlog
-d:\directx_learning\framework\framework\debug\framework.tlog\link.read.1.tlog
-d:\directx_learning\framework\framework\debug\framework.tlog\link.write.1.tlog
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\dxerr.obj
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\gametimer.obj
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\indirect d3d.obj
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\debug\framework.pdb
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\debug\framework.exe
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\debug\framework.ilk
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\framework.tlog\cl.command.1.tlog
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\framework.tlog\cl.read.1.tlog
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\framework.tlog\cl.write.1.tlog
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\framework.tlog\link.command.1.tlog
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\framework.tlog\link.read.1.tlog
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\debug\framework.tlog\link.write.1.tlog

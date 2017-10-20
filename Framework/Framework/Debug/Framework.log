@@ -3,6 +3,6 @@
   dxerr.cpp
   d3dApp.cpp
   正在生成代码...
-d:\directx_learning\framework\framework\d3dapp.cpp(72): warning C4700: 使用了未初始化的局部变量“msg”
-d:\directx_learning\framework\framework\d3dapp.cpp(190): warning C4700: 使用了未初始化的局部变量“backBuffer”
-  Framework.vcxproj -> D:\DirectX_Learning\Framework\Debug\Framework.exe
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\d3dapp.cpp(72): warning C4700: 使用了未初始化的局部变量“msg”
+c:\users\ianaesthetic\desktop\hbw\directx_learning\framework\framework\d3dapp.cpp(190): warning C4700: 使用了未初始化的局部变量“backBuffer”
+  Framework.vcxproj -> C:\Users\ianaesthetic\Desktop\hbw\DirectX_Learning\Framework\Debug\Framework.exe
