@@ -1,13 +1,6 @@
-﻿  dxerr.cpp
+﻿  Init Direct3D.cpp
+d:\directx_learning\framework_sample\init direct3d.cpp : fatal error C1041: 无法打开程序数据库“D:\DirectX_Learning\FrameWork_Sample\Debug\vc141.idb”；如果要将多个 CL.EXE 写入同一个 .PDB 文件，请使用 /FS
   d3dApp.cpp
-d:\directx_learning\common\d3dapp.cpp(356): error C2660: “CreateWindowExA”: 函数不接受 0 个参数
-d:\directx_learning\common\d3dapp.cpp(492): error C2664: “BOOL SetWindowTextA(HWND,LPCSTR)”: 无法将参数 2 从“const wchar_t *”转换为“LPCSTR”
-  d:\directx_learning\common\d3dapp.cpp(492): note: 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
-  GameTimer.cpp
+d:\directx_learning\common\d3dapp.cpp : fatal error C1041: 无法打开程序数据库“D:\DirectX_Learning\FrameWork_Sample\Debug\vc141.idb”；如果要将多个 CL.EXE 写入同一个 .PDB 文件，请使用 /FS
   正在生成代码...
-  正在编译...
-  d3dUtil.cpp
-  正在生成代码...
-  正在编译...
-  Init Direct3D.cpp
-  正在生成代码...
+cl : 命令行 warning D9028: 最小重新生成失败，正在转换为标准生成

@@ -13,7 +13,7 @@
 
 using namespace DirectX;
 
-#define ReleaseCOM(x) {x-> Release(); x = 0;}
+#define ReleaseCOM(x) {if(x){x-> Release(); x = 0;}}
 
 #if defined(DEBUG) | defined(_DEBUG)
 #ifndef HR

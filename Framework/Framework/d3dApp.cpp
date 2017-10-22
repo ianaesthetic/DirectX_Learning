@@ -66,7 +66,7 @@ bool D3DAPP::Init() {
 }
 
 int D3DAPP::Run() {
-	MSG msg; 
+	MSG msg; GetMessage(&msg, NULL, NULL, NULL);
 
 	mTimer.Reset();
 	while (msg.message != WM_QUIT) {
@@ -118,10 +118,10 @@ bool D3DAPP::InitDirect3D() {
 		return 0;
 	}
 
-	if (featureLevel != D3D_FEATURE_LEVEL_11_1) {
+	/*if (featureLevel != D3D_FEATURE_LEVEL_12_1) {
 		MessageBox(NULL, "D3D11 Not Supported!", 0, MB_OK);
 		return 0;
-	}
+	}*/
 
 	mDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &mMsaaQualityLevel);
 	assert(mMsaaQualityLevel > 0);
@@ -155,15 +155,15 @@ bool D3DAPP::InitDirect3D() {
 
 	//Creating SwapChain with interfaces
 	IDXGIDevice* dxgiDevice;
-	mDevice->QueryInterface(_uuidof(dxgiDevice), (void **) &dxgiDevice);
+	HR(mDevice->QueryInterface(_uuidof(dxgiDevice), (void **) &dxgiDevice));
 
 	IDXGIAdapter* dxgiAdapter; 
-	dxgiDevice->GetAdapter(&dxgiAdapter);
+	HR(dxgiDevice->GetAdapter(&dxgiAdapter));
 
 	IDXGIFactory* dxgiFactory; 
-	dxgiAdapter->GetParent(_uuidof(dxgiFactory), (void **)&dxgiFactory); 
+	HR(dxgiAdapter->GetParent(_uuidof(dxgiFactory), (void **)&dxgiFactory)); 
 
-	dxgiFactory->CreateSwapChain(mDevice, &sDec, &mSwapChain);
+	HR(dxgiFactory->CreateSwapChain(mDevice, &sDec, &mSwapChain));
 
 	ReleaseCOM(dxgiFactory);
 	ReleaseCOM(dxgiAdapter);
@@ -186,9 +186,10 @@ void D3DAPP::OnResize() {
 
 	//Creating RenderTargetView
 
+	HR(mSwapChain->ResizeBuffers(1, mClientWindowWidth, mClientWindowHeight, DXGI_FORMAT_R8G8B8A8_UNORM, 0));
 	ID3D11Texture2D* backBuffer;
-	mSwapChain->GetBuffer(0, _uuidof(backBuffer), reinterpret_cast<void**>(backBuffer));
-	mDevice->CreateRenderTargetView(backBuffer, 0, &mRenderTargetView);
+	HR(mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer)));
+	HR(mDevice->CreateRenderTargetView(backBuffer, 0, &mRenderTargetView));
 	ReleaseCOM(backBuffer);
 
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
@@ -202,7 +203,7 @@ void D3DAPP::OnResize() {
 	depthBufferDesc.MiscFlags		= 0;
 	if (mMsaa4XEnabled) {
 		depthBufferDesc.SampleDesc.Count = 4;
-		depthBufferDesc.SampleDesc.Quality = mMsaaQualityLevel;
+		depthBufferDesc.SampleDesc.Quality = mMsaaQualityLevel - 1;
 	}
 	else {
 		depthBufferDesc.SampleDesc.Count = 1;
@@ -231,7 +232,7 @@ void D3DAPP::OnResize() {
 bool D3DAPP::InitWindow() {
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.style = 0;
+	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = MainWndProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
