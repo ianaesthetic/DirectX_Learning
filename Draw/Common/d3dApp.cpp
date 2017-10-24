@@ -224,7 +224,7 @@ void D3DAPP::OnResize() {
 	mViewport.MaxDepth	= 1; 
 	mViewport.TopLeftX	= 0;
 	mViewport.TopLeftY	= 0; 
-
+	   
 	mDeviceContext->RSSetViewports(1, &mViewport);
 
 }
@@ -254,9 +254,9 @@ bool D3DAPP::InitWindow() {
 	mhMainWnd = CreateWindowEx(
 		0,
 		"(0. 0   )",
-		"theForger's Tutorial Application",
+		"Demo",
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, 480, 320,
+		CW_USEDEFAULT, CW_USEDEFAULT, 800, 600,
 		NULL, NULL, mhAppInstance, NULL);
 
 	if (mhMainWnd == NULL)

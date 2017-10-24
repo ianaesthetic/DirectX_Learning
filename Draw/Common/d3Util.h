@@ -11,6 +11,8 @@
 #include <cassert>
 #include <iostream>
 #include <cstring>
+#include <cstdlib>
+#include <vector>
 
 using namespace DirectX;
 
@@ -52,3 +54,4 @@ namespace Colors
 }
 
 using namespace DirectX;
+using namespace std;

@@ -1,4 +1,6 @@
 #include "d3dApp.h"
+#include <fstream>
+ofstream fout; 
 
 struct Vertex {
 	XMFLOAT3 cPos; 
@@ -29,6 +31,8 @@ private:
 	void OnMouseUp(WPARAM wParam, int x, int y);
 	void OnMouseMove(WPARAM wParam, int x, int y);
 
+	void LookAt(XMFLOAT4X4& view);
+
 private:
 	ID3DX11Effect* mFx; 
 	ID3DX11EffectTechnique* mTech; 
@@ -46,6 +50,18 @@ private:
 	POINT mLastMousePos;
 };
 
+void BoxDemo::LookAt(XMFLOAT4X4& view) {
+	float x, y, z; 
+	x = mRadius * sinf(mPhi) * cosf(mTheta);
+	y = mRadius * sinf(mPhi) * sinf(mTheta); 
+	z = mRadius * cosf(mPhi);
+	XMVECTOR pos = XMVectorSet(x, y, z, 1.0f);
+	XMVECTOR target = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
+	XMVECTOR up = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	XMMATRIX V = XMMatrixLookAtLH(pos, target, up);
+	XMStoreFloat4x4(&view, V);
+}
+
 BoxDemo::BoxDemo(HINSTANCE hInstance) :
 	D3DAPP(hInstance),
 	mFx(0),
@@ -54,7 +70,7 @@ BoxDemo::BoxDemo(HINSTANCE hInstance) :
 	mVertexBuffer(0),
 	mIndexBuffer(0), 
 	mTheta(1.5f * Pi), 
-	mPhi(2.5f * Pi), 
+	mPhi(0.5f * Pi), 
 	mRadius(5.0f){
 	
 	mLastMousePos.x = 0; 
@@ -62,8 +78,9 @@ BoxDemo::BoxDemo(HINSTANCE hInstance) :
 
 	XMMATRIX I = XMMatrixIdentity();
 	XMStoreFloat4x4(&mLocalWorld, I);
-	XMStoreFloat4x4(&mWorldView, I);
-	XMStoreFloat4x4(&mViewProj, I);
+	LookAt(mWorldView);
+	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * Pi, GetAspectRatio(), 1.0f, 1000.0f);
+	XMStoreFloat4x4(&mViewProj, P);
 }
 
 BoxDemo::~BoxDemo() {
@@ -87,6 +104,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE PrevInstance, PSTR cmdLine, in
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
+	fout.open("box.log");
+
 	BoxDemo theApp(hInstance);
 	if (!theApp.Init())
 		return 0; 
@@ -96,7 +115,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE PrevInstance, PSTR cmdLine, in
 void BoxDemo::UpdateScene(float dt) {
 	XMMATRIX V;
 	float x = mRadius * sinf(mPhi) * cosf(mTheta);
-	float y = mRadius * sinf(mPhi) * cosf(mTheta); 
+	float y = mRadius * sinf(mPhi) * sinf(mTheta); 
 	float z = mRadius * cosf(mPhi);
 
 	XMVECTOR pos = XMVectorSet(x, y, z, 1.0f);
@@ -109,12 +128,12 @@ void BoxDemo::UpdateScene(float dt) {
 void BoxDemo::OnResize() {
 	D3DAPP::OnResize();
 	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * Pi, D3DAPP::GetAspectRatio(), 1.0f, 1000.0f);	
-	XMStoreFloat4x4(&mViewProj, P); 
+	XMStoreFloat4x4(&mViewProj, P);
 }
 
 void BoxDemo :: DrawScene() {
 	//Clear Scene
-	mDeviceContext->ClearRenderTargetView(mRenderTargetView, Colors::Blue);
+	mDeviceContext->ClearRenderTargetView(mRenderTargetView, Colors::Black);
 	mDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	
 	//LayoutSet
@@ -133,6 +152,15 @@ void BoxDemo :: DrawScene() {
 	XMMATRIX worldView = XMLoadFloat4x4(&mWorldView);
 	XMMATRIX viewProj = XMLoadFloat4x4(&mViewProj); 
 	XMMATRIX WVP = localWorld * worldView * viewProj; 
+
+	XMFLOAT4X4 t;
+	XMStoreFloat4x4(&t, worldView);
+
+	fout << t._11 << " " << t._12 << " " << t._13 << " " << t._14 << endl
+		<< t._21 << " " << t._22 << " " << t._23 << " " << t._24 << endl
+		<< t._31 << " " << t._32 << " " << t._33 << " " << t._34 << endl
+		<< t._41 << " " << t._42 << " " << t._43 << " " << t._44 << endl;
+	fout << "***********\n";
 
 	ID3DX11EffectMatrixVariable* cWVP;
 	cWVP = mFx->GetVariableByName("gWorldViewProj")->AsMatrix();
@@ -254,11 +282,11 @@ void BoxDemo::OnMouseUp(WPARAM btnState, int x, int y) {
 
 void BoxDemo::OnMouseMove(WPARAM btnState, int x, int y) {
 	if ((btnState & MK_LBUTTON) != 0) {
-		float dx = 0.25f * static_cast<float>(x - mLastMousePos.x); 
-		float dy = 0.25f * static_cast<float>(y - mLastMousePos.y);
+		float dx = 0.025f * static_cast<float>(x - mLastMousePos.x); 
+		float dy = 0.025f * static_cast<float>(y - mLastMousePos.y);
 		mTheta += dx; 
-		mPhi += dy; 
-		mPhi = Clamp(0.0f, Pi - 0.001f, mPhi);
+		mPhi -= dy; 
+		//mPhi = Clamp(0.0f, Pi - 0.001f, mPhi);
 	}
 	else if ((btnState & MK_RBUTTON) != 0) {
 		float dx = 0.005f * static_cast<float>(x - mLastMousePos.x); 
