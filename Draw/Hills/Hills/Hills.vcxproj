@@ -72,9 +72,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\DirectX_Learning\Draw\Common;$(IncludePath)</IncludePath>
+    <IncludePath>D:\DirectX_Learning\Draw\Common;C:\Users\ianaesthetic\Desktop\hbw\DirectX_Learning\Draw\Common;$(IncludePath)</IncludePath>
     <LibraryWPath>D:\DirectX_Learning\Draw\Common;$(LibraryWPath)</LibraryWPath>
-    <LibraryPath>D:\DirectX_Learning\Draw\Common;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\DirectX_Learning\Draw\Common;C:\Users\ianaesthetic\Desktop\hbw\DirectX_Learning\Draw\Common;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

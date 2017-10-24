@@ -62,6 +62,7 @@ private:
 
 void Hills::OnResize() {
 	D3DAPP::OnResize();
+	Projection(mVtoH);
 }
 
 void Hills::LookAt(XMFLOAT4X4 &m) {
@@ -88,9 +89,9 @@ Hills::Hills(HINSTANCE hInstance) :
 	mVertexBuffer(0),
 	mIndexBuffer(0),
 	mInputLayout(0),
-	mTheta(0.25f * Pi),
-	mPhi(0.3f * Pi),
-	mRadius(10.0f),
+	mTheta(1.5f * Pi),
+	mPhi(0.5f * Pi),
+	mRadius(5.0f),
 	mGridLeft(-10.0f),
 	mGridRight(+10.0f),
 	mGridUp(+10.f),
@@ -155,7 +156,8 @@ void Hills::DrawScene() {
 
 	for (UINT p = 0; p < techDesc.Passes; ++p) {
 		mTech->GetPassByIndex(p)->Apply(0, mDeviceContext);
-		mDeviceContext->DrawIndexed(mGridH * mGridW * 6, 0, 0);
+		//mDeviceContext->DrawIndexed(mGridH * mGridW * 6, 0, 0);
+		mDeviceContext->DrawIndexed(36, 0, 0); 
 	}
 	HR(mSwapChain->Present(0,0));
 
@@ -181,7 +183,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE PrevInstance, PSTR cmdLine, in
 }
 
 void Hills::BuildGeometryBuffer() {
-	Grid Terrain(mGridLeft, mGridRight, mGridUp, mGridDown, mGridW, mGridH);
+	/*Grid Terrain(mGridLeft, mGridRight, mGridUp, mGridDown, mGridW, mGridH);
 	std::vector<Vertex> Vertices(Terrain.AmountOfVertex());
 	for (int i = 0; i <= mGridH; ++i) {
 		for (int j = 0; j <= mGridW; ++j) {
@@ -194,7 +196,7 @@ void Hills::BuildGeometryBuffer() {
 	
 	/*for (int i = 0; i < Terrain.AmountOfVertex(); ++i) {
 		fout << Vertices[i].cPos.x << " " << Vertices[i].cPos.z << " "<< i << endl;
-	}*/
+	}
 
 
 	std::vector<UINT> Indices(Terrain.SizeofGrid() * 6);
@@ -211,13 +213,51 @@ void Hills::BuildGeometryBuffer() {
 			for (int l = 0; l < 6; ++l) {
 				fout << Indices[s + l] << " ";
 			}
-			fout << endl;*/
+			fout << endl;
 		}
-	}
+	}*/
+
+	Vertex Vertices[] = {
+		Vertex(XMFLOAT3(-1.0f, -1.0f, -1.0f), Colors::White),
+		Vertex(XMFLOAT3(-1.0f, +1.0f, -1.0f), Colors::Black),
+		Vertex(XMFLOAT3(+1.0f, +1.0f, -1.0f), Colors::Red),
+		Vertex(XMFLOAT3(+1.0f, -1.0f, -1.0f), Colors::Green),
+		Vertex(XMFLOAT3(-1.0f, -1.0f, +1.0f), Colors::Blue),
+		Vertex(XMFLOAT3(-1.0f, +1.0f, +1.0f), Colors::Yellow),
+		Vertex(XMFLOAT3(+1.0f, +1.0f, +1.0f), Colors::Cyan),
+		Vertex(XMFLOAT3(+1.0f, -1.0f, +1.0f), Colors::Magenta),
+	};
+
+	UINT Indices[] = {
+		// front face
+		0, 1, 2,
+		0, 2, 3,
+
+		// back face
+		4, 6, 5,
+		4, 7, 6,
+
+		// left face
+		4, 5, 1,
+		4, 1, 0,
+
+		// right face
+		3, 2, 6,
+		3, 6, 7,
+
+		// top face
+		1, 5, 6,
+		1, 6, 2,
+
+		// bottom face
+		4, 0, 3,
+		4, 3, 7
+	};
 
 	D3D11_BUFFER_DESC VBDesc;
 	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	VBDesc.ByteWidth = sizeof(Vertex) * Terrain.AmountOfVertex();
+	//VBDesc.ByteWidth = sizeof(Vertex) * Terrain.AmountOfVertex();
+	VBDesc.ByteWidth = sizeof(Vertex) * 8;
 	VBDesc.CPUAccessFlags = 0;
 	VBDesc.MiscFlags = 0;
 	VBDesc.StructureByteStride = 0;
@@ -229,7 +269,8 @@ void Hills::BuildGeometryBuffer() {
 
 	D3D11_BUFFER_DESC IBDesc;
 	IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	IBDesc.ByteWidth = sizeof(UINT) * Terrain.SizeofGrid() * 6;
+	IBDesc.ByteWidth = sizeof(UINT) * 36;
+	//IBDesc.ByteWidth = sizeof(UINT) * Terrain.SizeofGrid() * 6;
 	IBDesc.CPUAccessFlags = 0;
 	IBDesc.MiscFlags = 0;
 	IBDesc.StructureByteStride = 0;
@@ -243,7 +284,7 @@ void Hills::BuildGeometryBuffer() {
 void Hills::BuildInputLayout() {
 	D3D11_INPUT_ELEMENT_DESC InputDesc[] = {
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 	D3DX11_PASS_DESC PassDesc;
 	mTech->GetPassByIndex(0)->GetDesc(&PassDesc);
