@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <vector>
 
+
 using namespace DirectX;
 
 #define ReleaseCOM(x) {if(x){x-> Release(); x = 0;}}

@@ -69,7 +69,7 @@ BoxDemo::BoxDemo(HINSTANCE hInstance) :
 	mInputLayout(0),
 	mVertexBuffer(0),
 	mIndexBuffer(0), 
-	mTheta(1.5f * Pi), 
+	mTheta(0.0f * Pi), 
 	mPhi(0.5f * Pi), 
 	mRadius(5.0f){
 	
@@ -131,36 +131,70 @@ void BoxDemo::OnResize() {
 	XMStoreFloat4x4(&mViewProj, P);
 }
 
+/*void BoxDemo::DrawScene() {
+//Clear View
+mDeviceContext->ClearRenderTargetView(mRenderTargetView, Colors::Black);
+mDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D10_CLEAR_STENCIL | D3D10_CLEAR_DEPTH, 1.0f, 0);
+
+//Input Layout
+mDeviceContext->IASetInputLayout(mInputLayout);
+mDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+//Buffers
+UINT stride = sizeof(Vertex);
+UINT offset = 0;
+mDeviceContext->IAGetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
+mDeviceContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+//Matrix
+XMMATRIX LtoW = XMLoadFloat4x4(&mLocalWorld);
+XMMATRIX WtoV = XMLoadFloat4x4(&mWorldView);
+XMMATRIX VtoH = XMLoadFloat4x4(&mViewProj);
+XMMATRIX WVH = LtoW * WtoV * VtoH;
+
+//Draw!
+D3DX11_TECHNIQUE_DESC techDesc;
+ID3DX11EffectMatrixVariable* fxWVH;
+fxWVH = mFx->GetVariableByName("gWVP")->AsMatrix();
+fxWVH->SetMatrix(reinterpret_cast<float*>(&WVH));
+mFx->GetTechniqueByName("ColorTech")->GetDesc(&techDesc);
+
+for (UINT p = 0; p < techDesc.Passes; ++p) {
+mTech->GetPassByIndex(p)->Apply(0, mDeviceContext);
+//mDeviceContext->DrawIndexed(mGridH * mGridW * 6, 0, 0);
+mDeviceContext->DrawIndexed(36, 0, 0);
+}
+HR(mSwapChain->Present(0, 0));
+
+}*/
+
+
 void BoxDemo :: DrawScene() {
-	//Clear Scene
+	//Clear View
 	mDeviceContext->ClearRenderTargetView(mRenderTargetView, Colors::Black);
-	mDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	
-	//LayoutSet
+	mDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D10_CLEAR_STENCIL | D3D10_CLEAR_DEPTH, 1.0f, 0);
+
+	//Input Layout
 	mDeviceContext->IASetInputLayout(mInputLayout);
 	mDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//Vertex Buffer & Index Buffer
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	mDeviceContext->IAGetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
+	mDeviceContext->IASetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
+	mDeviceContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+	/*
+	//Buffers
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	mDeviceContext->IASetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
 	mDeviceContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-	//MatrixSetting
-
+	*/
 	XMMATRIX localWorld = XMLoadFloat4x4(&mLocalWorld);
 	XMMATRIX worldView = XMLoadFloat4x4(&mWorldView);
-	XMMATRIX viewProj = XMLoadFloat4x4(&mViewProj); 
-	XMMATRIX WVP = localWorld * worldView * viewProj; 
-
-	XMFLOAT4X4 t;
-	XMStoreFloat4x4(&t, worldView);
-
-	fout << t._11 << " " << t._12 << " " << t._13 << " " << t._14 << endl
-		<< t._21 << " " << t._22 << " " << t._23 << " " << t._24 << endl
-		<< t._31 << " " << t._32 << " " << t._33 << " " << t._34 << endl
-		<< t._41 << " " << t._42 << " " << t._43 << " " << t._44 << endl;
-	fout << "***********\n";
+	XMMATRIX viewProj = XMLoadFloat4x4(&mViewProj);
+	XMMATRIX WVP = localWorld * worldView * viewProj;
 
 	ID3DX11EffectMatrixVariable* cWVP;
 	cWVP = mFx->GetVariableByName("gWorldViewProj")->AsMatrix();
@@ -175,6 +209,43 @@ void BoxDemo :: DrawScene() {
 	}
 	HR(mSwapChain->Present(0,0));
 }	
+
+/*
+void BoxDemo::DrawScene() {
+	//Clear Scene
+	mDeviceContext->ClearRenderTargetView(mRenderTargetView, Colors::Black);
+	mDeviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+	//LayoutSet
+	mDeviceContext->IASetInputLayout(mInputLayout);
+	mDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//Vertex Buffer & Index Buffer
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	mDeviceContext->IASetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
+	mDeviceContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+	//MatrixSetting
+
+	XMMATRIX localWorld = XMLoadFloat4x4(&mLocalWorld);
+	XMMATRIX worldView = XMLoadFloat4x4(&mWorldView);
+	XMMATRIX viewProj = XMLoadFloat4x4(&mViewProj);
+	XMMATRIX WVP = localWorld * worldView * viewProj;
+
+	ID3DX11EffectMatrixVariable* cWVP;
+	cWVP = mFx->GetVariableByName("gWorldViewProj")->AsMatrix();
+	cWVP->SetMatrix(reinterpret_cast<float*>(&WVP));
+
+	//Draw!
+	D3DX11_TECHNIQUE_DESC techDesc;
+	mTech->GetDesc(&techDesc);
+	for (UINT i = 0; i < techDesc.Passes; ++i) {
+		mTech->GetPassByIndex(i)->Apply(0, mDeviceContext);
+		mDeviceContext->DrawIndexed(36, 0, 0);
+	}
+	HR(mSwapChain->Present(0, 0));
+}*/
 
 void BoxDemo::BuildFx() {
 	ID3DBlob* ErrorMsg = 0;

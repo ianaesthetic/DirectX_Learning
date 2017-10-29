@@ -1,6 +1,0 @@
-﻿  Init Direct3D.cpp
-d:\directx_learning\framework_sample\init direct3d.cpp : fatal error C1041: 无法打开程序数据库“D:\DirectX_Learning\FrameWork_Sample\Debug\vc141.idb”；如果要将多个 CL.EXE 写入同一个 .PDB 文件，请使用 /FS
-  d3dApp.cpp
-d:\directx_learning\common\d3dapp.cpp : fatal error C1041: 无法打开程序数据库“D:\DirectX_Learning\FrameWork_Sample\Debug\vc141.idb”；如果要将多个 CL.EXE 写入同一个 .PDB 文件，请使用 /FS
-  正在生成代码...
-cl : 命令行 warning D9028: 最小重新生成失败，正在转换为标准生成
