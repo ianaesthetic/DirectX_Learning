@@ -7,20 +7,22 @@
 
 #define _index(a, b, c) ((a << 2) | (b << 1) | c)
 
-Box::Box() { 
+Box::Box(float x, float  y, float z, 
+	vector<Vertex> &mVData, vector<UINT> &mIData, int &vByteWidth, int &iByteWidth, 
+	float posX, float posY, float posZ) { 
 	mVCount = 8;
 	mICount = 36; 
-	mVSize = mVCount * sizeof(Vertex);
-	mISize = mICount * sizeof(UINT);
+	vByteWidth += mVCount * sizeof(Vertex);
+	iByteWidth += mICount * sizeof(UINT);
 
-	mVData.push_back(Vertex(XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::White));
-	mVData.push_back(Vertex(XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Black));
-	mVData.push_back(Vertex(XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Red));
-	mVData.push_back(Vertex(XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Green));
-	mVData.push_back(Vertex(XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Blue));
-	mVData.push_back(Vertex(XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Yellow));
-	mVData.push_back(Vertex(XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Cyan));
-	mVData.push_back(Vertex(XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Magenta));
+	mVData.push_back(Vertex(XMFLOAT3(-x, -y, -z), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::White));
+	mVData.push_back(Vertex(XMFLOAT3(-x, +y, -z), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Black));
+	mVData.push_back(Vertex(XMFLOAT3(+x, +y, -z), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Red));
+	mVData.push_back(Vertex(XMFLOAT3(+x, -y, -z), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Green));
+	mVData.push_back(Vertex(XMFLOAT3(-x, -y, +z), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Blue));
+	mVData.push_back(Vertex(XMFLOAT3(-x, +y, +z), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Yellow));
+	mVData.push_back(Vertex(XMFLOAT3(+x, +y, +z), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Cyan));
+	mVData.push_back(Vertex(XMFLOAT3(+x, -y, +z), XMFLOAT3(0.0f, 0.0f, 0.0f), Colors::Magenta));
 	
 	int s = 0;
 	mIData[s + 0] = 0, mIData[s + 1] = 1, mIData[s + 2] = 2; 
@@ -45,7 +47,7 @@ Box::Box() {
 
 	mIData[s + 0] = 4, mIData[s + 1] = 0, mIData[s + 2] = 3;
 	mIData[s + 3] = 4, mIData[s + 4] = 3, mIData[s + 5] = 7;
-
+	
 	XMMATRIX I = XMMatrixIdentity();
 	XMStoreFloat4x4(&mLtoW, I);
 }

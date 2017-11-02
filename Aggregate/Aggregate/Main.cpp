@@ -1,6 +1,12 @@
 #include "Shape.h"
 #include <d3dApp.h>
 
+Geometry shape; 
+vector<Vertex> vertexSource;
+vector<UINT> indexSource; 
+int vertexSize = 0; 
+int indexSize = 0; 
+
 class Present :public D3DAPP {
 public:
 	Present(HINSTANCE hInstance);
@@ -71,4 +77,98 @@ Present::~Present() {
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE PreInstace, 
 	PSTR cmdLine, int showCmd) {
+}
+
+void Present::BuildBuffer() {
+	shape = box(1.0f, 1.0f, 1.0f,
+		vertexSource, indexSource, );
+	D3D11_BUFFER_DESC VBDesc;
+	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

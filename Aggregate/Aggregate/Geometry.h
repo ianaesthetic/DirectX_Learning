@@ -32,8 +32,6 @@ public:
 	virtual int IndexCount();
 	virtual int SizeofVertex();
 	virtual int SizeofIndex();
-	virtual Vertex* GetVertexData();
-	virtual UINT*  GetIndexData(); 
 
 protected:
 	int mVCount;
@@ -42,7 +40,4 @@ protected:
 	int mISize; 
 
 	XMFLOAT4X4 mLtoW; 
-	
-	vector <Vertex> mVData; 
-	vector <UINT>	mIData;
 };
